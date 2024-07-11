@@ -4,6 +4,8 @@
 
 ## User settings
 xcuserdata/
+split_einsum_v2/
+StableDiffusion/
 
 ## compatibility with Xcode 8 and earlier (ignoring not required starting Xcode 9)
 *.xcscmblueprint
