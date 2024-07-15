@@ -42,6 +42,7 @@ lowres, bad anatomy, bad hands, text, error, missing fingers, extra digit, fewer
                             generate()
                             isGenerating = true
                             imageGenerator.generatedImages = nil
+                            imageGenerator.steps = 0
                             withAnimation {
                                 proxy.scrollTo(imgTopID, anchor: .top)
                             }

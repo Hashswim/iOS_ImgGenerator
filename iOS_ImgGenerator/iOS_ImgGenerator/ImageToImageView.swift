@@ -39,7 +39,17 @@ lowres, bad anatomy, bad hands, text, error, missing fingers, extra digit, fewer
                     selection: $selectedItem,
                     matching: .images,
                     photoLibrary: .shared()) {
-                        Text("Select a photo")
+                        VStack {
+                            Image(systemName: "photo.badge.plus")
+                                .font(.largeTitle)
+                            Text("select base photo in library")
+                        }.padding(40)
+                        .overlay(content: {
+                            RoundedRectangle(cornerRadius: 12)
+                                .strokeBorder(style: StrokeStyle(lineWidth: 4, dash: [8]))
+                        })
+
+
                     }.onChange(of: selectedItem, { oldValue, newValue in
                         Task {
                             // Retrieve selected asset in the form of Data
