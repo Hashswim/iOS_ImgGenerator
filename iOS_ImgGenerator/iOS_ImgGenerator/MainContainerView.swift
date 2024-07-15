@@ -15,14 +15,14 @@ struct MainContainerView: View {
             }
             .pickerStyle(.segmented)
 
-            switch selection {
-            case 0:
+            TabView(selection: $selection) {
                 TextToImageView(imageGenerator: imageGenerator)
-            case 1:
+                    .tag(0)
                 ImageToImageView(imageGenerator: imageGenerator)
-            default:
-                TextToImageView(imageGenerator: imageGenerator)
+                    .tag(1)
             }
+            .tabViewStyle(.page(indexDisplayMode: .never))
+//            .animation(.easeIn, value: selection)
         }.padding()
     }
 }

@@ -2,24 +2,21 @@
 import SwiftUI
 
 struct TextToImageView: View {
-    static let prompt = "a photo of an astronaut riding a horse on mars"
-    static let negativePrompt =
-"""
-lowres, bad anatomy, bad hands, text, error, missing fingers, extra digit, fewer digits,
- cropped, worst quality, low quality, normal quality, jpeg artifacts, blurry, multiple legs, malformation
-"""
 
     @ObservedObject var imageGenerator: ImageGenerator
     @State private var generationParameter =
-        ImageGenerator.GenerationParameter(mode: .textToImage,
-                                           prompt: prompt,
-                                           negativePrompt: negativePrompt,
-                                           guidanceScale: 8.0,
-                                           seed: 1_000_000,
-                                           stepCount: 20,
-                                           imageCount: 1,
-                                           disableSafety: false,
-                                           strength: 1.0)
+    ImageGenerator.GenerationParameter(mode: .textToImage,
+                                       prompt: "a photo of an astronaut riding a horse on mars",
+                                       negativePrompt: """
+lowres, bad anatomy, bad hands, text, error, missing fingers, extra digit, fewer digits,
+ cropped, worst quality, low quality, normal quality, jpeg artifacts, blurry, multiple legs, malformation
+""",
+                                       guidanceScale: 8.0,
+                                       seed: 1_000_000,
+                                       stepCount: 20,
+                                       imageCount: 1,
+                                       disableSafety: false,
+                                       strength: 1.0)
 
     @State var isGenerating: Bool = false
 
@@ -59,34 +56,30 @@ lowres, bad anatomy, bad hands, text, error, missing fingers, extra digit, fewer
                         }
                     }
 
-                    Spacer().id(imgTopID)
-
-                    if isGenerating {
-                        if let generatedImages = imageGenerator.generatedImages {
-                            ForEach(generatedImages.images) {
-                                Image(uiImage: $0.uiImage)
-                                    .resizable()
-                                    .scaledToFit()
-                            }
-                            Button(action: {
-                                print("")
-                                UIImageWriteToSavedPhotosAlbum(generatedImages.images.first!.uiImage, nil, nil, nil)
-                            }, label: {
-                                Text("Save")
-                                    .font(.title)
-                            })
-                            .buttonStyle(.borderedProminent)
-                        } else {
-                            VStack {
+                    VStack {
+                        if isGenerating {
+                            if let generatedImages = imageGenerator.generatedImages {
+                                ForEach(generatedImages.images) {
+                                    Image(uiImage: $0.uiImage)
+                                        .resizable()
+                                        .scaledToFit()
+                                }
+                                Button(action: {
+                                    print("")
+                                    UIImageWriteToSavedPhotosAlbum(generatedImages.images.first!.uiImage, nil, nil, nil)
+                                }, label: {
+                                    Text("Save")
+                                        .font(.title)
+                                })
+                                .buttonStyle(.borderedProminent)
+                            } else {
                                 Image("gen_image")
                                     .resizable()
                                     .scaledToFit()
                                     .symbolEffect(.variableColor.cumulative, options: .repeating.speed(1.5))
-                                    .id(imgTopID)
-
                                 ProgressView(value: ((Double(imageGenerator.steps) / 28.0)))
-                                            .progressViewStyle(LinearProgressViewStyle(tint: .red))
-                                            .padding()
+                                    .progressViewStyle(LinearProgressViewStyle(tint: .red))
+                                    .padding()
 
                                 Button(action: {
                                     print("")
@@ -97,14 +90,16 @@ lowres, bad anatomy, bad hands, text, error, missing fingers, extra digit, fewer
                                         .font(.title)
                                 })
                                 .buttonStyle(.borderedProminent)
-                            }.frame(width: UIScreen.screenWidth, height: UIScreen.screenHeight)
+                            }
                         }
-                    }
+                    }.frame(width: UIScreen.screenWidth, height: UIScreen.screenHeight)
+                        .id(imgTopID)
                 }
             }
         }
     }
 
+    
     func generate() {
         imageGenerator.generateImages(generationParameter)
     }
