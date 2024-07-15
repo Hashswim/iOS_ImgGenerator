@@ -1,4 +1,3 @@
-
 import UIKit
 import StableDiffusion
 import CoreML
@@ -19,7 +18,7 @@ final class ImageGenerator: ObservableObject {
         var imageCount: Int
         var disableSafety: Bool
         var startImage: CGImage?
-        var strength: Float = 1.0
+        var strength: Float
     }
 
     struct GeneratedImage: Identifiable {
@@ -56,6 +55,8 @@ final class ImageGenerator: ObservableObject {
     @Published var generationState: GenerationState = .idle
     @Published var generatedImages: GeneratedImages?
     @Published var isPipelineCreated = false
+    @Published var isCancelled: Bool = false
+    @Published var steps: Int = 0
 
     private var sdPipeline: StableDiffusionPipeline?
 
@@ -71,13 +72,14 @@ final class ImageGenerator: ObservableObject {
         isPipelineCreated = true
     }
 
-    func setGeneratedImages(_ images: GeneratedImages) { // for actor isolation
+    func setGeneratedImages(_ images: GeneratedImages?) { // for actor isolation
         generatedImages = images
     }
 
     // swiftlint:disable function_body_length
     func generateImages(_ parameter: GenerationParameter) {
         guard generationState == .idle else { return }
+        isCancelled = false
         Task.detached(priority: .high) {
             await self.setState(.generating(progressStep: 0))
 
@@ -89,19 +91,6 @@ final class ImageGenerator: ObservableObject {
 
                 let config = MLModelConfiguration()
 
-                // [Note]
-                // Specifying config.computeUnits is not necessary. Use the default.
-                //
-                // Specifying config.computeUnits = .cpuAndNeuralEngine will cause an internal fatal error on devices.
-                // config.computeUnits = .cpuAndNeuralEngine
-                //
-                // Specifying config.computeUnits = .cpuAndGPU works on device with no reason.
-                //     if !ProcessInfo.processInfo.isiOSAppOnMac {
-                //         config.computeUnits = .cpuAndGPU
-                //     }
-
-                // reduceMemory option was added at v0.1.0
-                // On iOS, the reduceMemory option should be set to true
                 let reduceMemory = ProcessInfo.processInfo.isiOSAppOnMac ? false : true
                 if let pipeline = try? StableDiffusionPipeline(resourcesAt: resourceURL, controlNet: [],
                                                                configuration: config,
@@ -114,14 +103,6 @@ final class ImageGenerator: ObservableObject {
 
             if let sdPipeline = await self.sdPipeline {
                 do {
-                    // if you would like to use the progressHandler,
-                    // please check the another repo - AR Diffusion Museum:
-                    // https://github.com/ynagatomo/ARDiffMuseum
-                    // It handles the progressHandler and displays the generating images step by step.
-
-                    // apple/ml-stable-diffusion v0.2.0 changed the generateImages() API
-                    //   to generateImages(configuration:progressHandler:)
-
                     var configuration = StableDiffusionPipeline.Configuration(prompt: parameter.prompt)
                     configuration.negativePrompt = parameter.negativePrompt
                     configuration.imageCount = 1
@@ -130,8 +111,6 @@ final class ImageGenerator: ObservableObject {
                     configuration.guidanceScale = 7.5
                     configuration.disableSafety = parameter.disableSafety
 
-                    // [Note] generation mode: textToImage or imageToImage
-                    //        when startingImage != nil AND strength < 1.0, imageToImage mode is selected
                     switch parameter.mode {
                     case .textToImage:
                         configuration.strength = 1.0
@@ -140,27 +119,40 @@ final class ImageGenerator: ObservableObject {
                         configuration.strength = parameter.strength
                     }
 
-                    let cgImages = try sdPipeline.generateImages(configuration: configuration)
+                    let cgImages = try sdPipeline.generateImages(configuration: configuration, progressHandler: self.handleProgress)
 
                     print("images were generated.")
                     let uiImages = cgImages.compactMap { image in
                         if let cgImage = image { return UIImage(cgImage: cgImage)
                         } else { return nil }
                     }
-                    await self.setGeneratedImages(GeneratedImages(prompt: parameter.prompt,
-                                                                  negativePrompt: parameter.negativePrompt,
-                                                                  guidanceScale: parameter.guidanceScale,
-                                                                  imageCount: parameter.imageCount,
-                                                                  stepCount: parameter.stepCount,
-                                                                  seed: parameter.seed,
-                                                                  disableSafety: parameter.disableSafety,
-                                    images: uiImages.map { uiImage in GeneratedImage(uiImage: uiImage) }))
+
+                    if await !self.isCancelled {
+                        await self.setGeneratedImages(GeneratedImages(prompt: parameter.prompt,
+                                                                      negativePrompt: parameter.negativePrompt,
+                                                                      guidanceScale: parameter.guidanceScale,
+                                                                      imageCount: parameter.imageCount,
+                                                                      stepCount: parameter.stepCount,
+                                                                      seed: parameter.seed,
+                                                                      disableSafety: parameter.disableSafety,
+                                        images: uiImages.map { uiImage in GeneratedImage(uiImage: uiImage) }))
+                    } else {
+                        await self.setGeneratedImages(nil)
+                    }
                 } catch {
                     print("failed to generate images.")
                 }
             }
-
             await self.setState(.idle)
         }
+    }
+
+    @MainActor
+    private func handleProgress(_ progress: StableDiffusionPipeline.Progress) -> Bool {
+        DispatchQueue.main.async {
+            self.steps = progress.step
+        }
+
+        return !isCancelled
     }
 }

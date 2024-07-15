@@ -17,7 +17,9 @@ lowres, bad anatomy, bad hands, text, error, missing fingers, extra digit, fewer
                                            guidanceScale: 8.0,
                                            seed: 1_000_000,
                                            stepCount: 20,
-                                           imageCount: 1, disableSafety: false)
+                                           imageCount: 1,
+                                           disableSafety: false,
+                                           strength: 1.0)
 
     @State var isGenerating: Bool = false
 
@@ -42,6 +44,7 @@ lowres, bad anatomy, bad hands, text, error, missing fingers, extra digit, fewer
                         Button(action: {
                             generate()
                             isGenerating = true
+                            imageGenerator.generatedImages = nil
                             withAnimation {
                                 proxy.scrollTo(imgTopID, anchor: .top)
                             }
@@ -49,7 +52,11 @@ lowres, bad anatomy, bad hands, text, error, missing fingers, extra digit, fewer
                             Text("Generate").font(.title)
                         }.buttonStyle(.borderedProminent)
                     } else {
-                        Text("Generating..").font(.title)
+                        if imageGenerator.isCancelled {
+                            Text("Canceling..").font(.title)
+                        } else {
+                            Text("Generating..").font(.title)
+                        }
                     }
 
                     Spacer().id(imgTopID)
@@ -63,9 +70,7 @@ lowres, bad anatomy, bad hands, text, error, missing fingers, extra digit, fewer
                             }
                             Button(action: {
                                 print("")
-                                withAnimation {
-                                    proxy.scrollTo(topID, anchor: .top)
-                                }
+                                UIImageWriteToSavedPhotosAlbum(generatedImages.images.first!.uiImage, nil, nil, nil)
                             }, label: {
                                 Text("Save")
                                     .font(.title)
@@ -79,12 +84,14 @@ lowres, bad anatomy, bad hands, text, error, missing fingers, extra digit, fewer
                                     .symbolEffect(.variableColor.cumulative, options: .repeating.speed(1.5))
                                     .id(imgTopID)
 
+                                ProgressView(value: ((Double(imageGenerator.steps) / 28.0)))
+                                            .progressViewStyle(LinearProgressViewStyle(tint: .red))
+                                            .padding()
+
                                 Button(action: {
                                     print("")
+                                    imageGenerator.isCancelled = true
                                     isGenerating = false
-                                    withAnimation {
-                                        proxy.scrollTo(topID, anchor: .top)
-                                    }
                                 }, label: {
                                     Text("Cancel")
                                         .font(.title)
