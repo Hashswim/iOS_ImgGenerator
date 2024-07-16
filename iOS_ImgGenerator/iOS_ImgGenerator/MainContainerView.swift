@@ -7,7 +7,11 @@ struct MainContainerView: View {
 
     var body: some View {
         VStack {
-            Text("Image Generator")
+            HStack {
+                Text("Image Generator")
+                    .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
+                Spacer()
+            }
 
             Picker(selection: $selection, label: Text("test")) {
                 Text("Text to Image").tag(0)

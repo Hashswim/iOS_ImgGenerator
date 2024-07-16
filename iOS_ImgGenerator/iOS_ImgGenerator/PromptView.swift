@@ -3,6 +3,7 @@ import SwiftUI
 
 struct PromptView: View {
     @Binding var parameter: ImageGenerator.GenerationParameter
+    @State var hint: Bool = true
 
     var body: some View {
         VStack(spacing: 8) {
@@ -11,7 +12,10 @@ struct PromptView: View {
                 .textFieldStyle(RoundedBorderTextFieldStyle())
                 .lineLimit(1...30)
 
-            HStack { Text("Negative Prompt"); Spacer() }
+            HStack {
+                Text("Negative Prompt")
+                Spacer()
+            }
             TextField("Prompt:", text: $parameter.negativePrompt, axis: .vertical)
                 .textFieldStyle(.roundedBorder)
                 .lineLimit(1...30)

@@ -27,12 +27,10 @@ lowres, bad anatomy, bad hands, text, error, missing fingers, extra digit, fewer
         ScrollViewReader { proxy in
             ScrollView {
                 VStack {
-                    Text("Text to image").font(.title3).bold().padding(6)
-                        .id(topID)
-                    Text("guide text")
+                    Text("draw an animation-style picture with prompt")
                         .foregroundColor(.secondary)
                         .font(.caption)
-                        .padding(.bottom)
+                        .padding()
 
                     PromptView(parameter: $generationParameter)
                         .disabled(imageGenerator.generationState != .idle)

@@ -29,27 +29,32 @@ lowres, bad anatomy, bad hands, text, error, missing fingers, extra digit, fewer
     var body: some View {
         ScrollView {
             VStack {
-                Text("Image to image").font(.title3).bold().padding(6)
-                Text("guide text")
+                Text("draw an animation-style picture with prompt and photo\n (512, 512) pixel size is best quality")
                     .foregroundColor(.secondary)
+                    .multilineTextAlignment(.center)
                     .font(.caption)
-                    .padding(.bottom)
+                    .padding()
 
                 PhotosPicker(
                     selection: $selectedItem,
                     matching: .images,
                     photoLibrary: .shared()) {
                         VStack {
-                            Image(systemName: "photo.badge.plus")
-                                .font(.largeTitle)
+                            if let resizedImage {
+                                Image(uiImage: resizedImage)
+                                    .resizable()
+                                    .frame(width: 128, height: 128)
+                            } else {
+                                Image(systemName: "photo.badge.plus")
+                                    .font(.largeTitle)
+                            }
+
                             Text("select base photo in library")
-                        }.padding(40)
+                        }.padding(EdgeInsets(top: 40, leading: 68, bottom: 40, trailing: 68))
                         .overlay(content: {
                             RoundedRectangle(cornerRadius: 12)
                                 .strokeBorder(style: StrokeStyle(lineWidth: 4, dash: [8]))
                         })
-
-
                     }.onChange(of: selectedItem, { oldValue, newValue in
                         Task {
                             // Retrieve selected asset in the form of Data
@@ -60,12 +65,6 @@ lowres, bad anatomy, bad hands, text, error, missing fingers, extra digit, fewer
                             }
                         }
                     })
-
-                if let resizedImage {
-                    Image(uiImage: resizedImage)
-                        .resizable()
-                        .frame(width: 256, height: 256)
-                }
 
                 PromptView(parameter: $generationParameter)
                     .disabled(imageGenerator.generationState != .idle)
