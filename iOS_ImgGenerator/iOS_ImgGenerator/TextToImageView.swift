@@ -19,6 +19,7 @@ lowres, bad anatomy, bad hands, text, error, missing fingers, extra digit, fewer
                                        strength: 1.0)
 
     @State var isGenerating: Bool = false
+    @EnvironmentObject var ImgSaver: ImageSaver
 
     @Namespace var topID
     @Namespace var imgTopID
@@ -30,19 +31,20 @@ lowres, bad anatomy, bad hands, text, error, missing fingers, extra digit, fewer
                     Text("draw an animation-style picture with prompt")
                         .foregroundColor(.secondary)
                         .font(.caption)
-                        .padding()
 
                     PromptView(parameter: $generationParameter)
                         .disabled(imageGenerator.generationState != .idle)
 
                     if imageGenerator.generationState == .idle {
                         Button(action: {
-                            generate()
-                            isGenerating = true
-                            imageGenerator.generatedImages = nil
-                            imageGenerator.steps = 0
-                            withAnimation {
-                                proxy.scrollTo(imgTopID, anchor: .top)
+                            Task {
+                                generate()
+                                isGenerating = true
+                                imageGenerator.generatedImages = nil
+                                imageGenerator.steps = 0
+                                withAnimation {
+                                    proxy.scrollTo(imgTopID, anchor: .top)
+                                }
                             }
                         }) {
                             Text("Generate").font(.title)
@@ -64,8 +66,8 @@ lowres, bad anatomy, bad hands, text, error, missing fingers, extra digit, fewer
                                         .scaledToFit()
                                 }
                                 Button(action: {
-                                    print("")
-                                    UIImageWriteToSavedPhotosAlbum(generatedImages.images.first!.uiImage, nil, nil, nil)
+                                    let imageSaver = ImageSaver()
+                                    imageSaver.writeToPhotoAlbum(image: generatedImages.images.first!.uiImage)
                                 }, label: {
                                     Text("Save")
                                         .font(.title)
@@ -91,8 +93,8 @@ lowres, bad anatomy, bad hands, text, error, missing fingers, extra digit, fewer
                                 .buttonStyle(.borderedProminent)
                             }
                         }
-                    }.frame(width: UIScreen.screenWidth, height: UIScreen.screenHeight)
-                        .id(imgTopID)
+                    }.padding()
+                    .id(imgTopID)
                 }
             }
         }

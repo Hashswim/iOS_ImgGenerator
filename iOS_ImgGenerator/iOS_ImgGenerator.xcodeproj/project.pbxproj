@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		11622E1D2C4603670093476C /* ImageSaver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11622E1C2C4603670093476C /* ImageSaver.swift */; };
 		1173E1602C42D7DD00875F16 /* CoreMLModels in Resources */ = {isa = PBXBuildFile; fileRef = 1173E15F2C42D7DD00875F16 /* CoreMLModels */; };
 		1173E1632C42D82E00875F16 /* StableDiffusion in Frameworks */ = {isa = PBXBuildFile; productRef = 1173E1622C42D82E00875F16 /* StableDiffusion */; };
 		1173E1652C42DA1200875F16 /* ImageGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1173E1642C42DA1200875F16 /* ImageGenerator.swift */; };
@@ -22,6 +23,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		11622E1C2C4603670093476C /* ImageSaver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageSaver.swift; sourceTree = "<group>"; };
 		1173E15F2C42D7DD00875F16 /* CoreMLModels */ = {isa = PBXFileReference; lastKnownFileType = folder; name = CoreMLModels; path = "../../../../ml-stable-diffusion/generated-2/CoreMLModels"; sourceTree = "<group>"; };
 		1173E1642C42DA1200875F16 /* ImageGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageGenerator.swift; sourceTree = "<group>"; };
 		1173E1662C42DA4100875F16 /* ImageToImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageToImageView.swift; sourceTree = "<group>"; };
@@ -80,6 +82,7 @@
 				11BBC5682C457164002AB856 /* GeneratedImageView.swift */,
 				117EC5E72C3FDB3200FDF90C /* Assets.xcassets */,
 				117EC5E92C3FDB3200FDF90C /* Preview Content */,
+				11622E1C2C4603670093476C /* ImageSaver.swift */,
 			);
 			path = iOS_ImgGenerator;
 			sourceTree = "<group>";
@@ -173,6 +176,7 @@
 				1173E16C2C42DA4100875F16 /* MainContainerView.swift in Sources */,
 				1173E16D2C42DA4100875F16 /* TextToImageView.swift in Sources */,
 				11BBC5672C4567E3002AB856 /* UIScreen+.swift in Sources */,
+				11622E1D2C4603670093476C /* ImageSaver.swift in Sources */,
 				1173E16A2C42DA4100875F16 /* ImageToImageView.swift in Sources */,
 				1173E1652C42DA1200875F16 /* ImageGenerator.swift in Sources */,
 				1173E16B2C42DA4100875F16 /* PromptView.swift in Sources */,
