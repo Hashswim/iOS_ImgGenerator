@@ -16,73 +16,93 @@ lowres, bad anatomy, bad hands, text, error, missing fingers, extra digit, fewer
 
     @ObservedObject var imageGenerator: ImageGenerator
     @State private var generationParameter: ImageGenerator.GenerationParameter =
-        ImageGenerator.GenerationParameter(mode: .imageToImage,
-                                           prompt: prompt,
-                                           negativePrompt: negativePrompt,
-                                           guidanceScale: 8.0,
-                                           seed: 1_000_000,
-                                           stepCount: 20,
-                                           imageCount: 1, disableSafety: false,
-                                           startImage: UIImage().cgImage,
-                                           strength: 0.5)
+    ImageGenerator.GenerationParameter(mode: .imageToImage,
+                                       prompt: prompt,
+                                       negativePrompt: negativePrompt,
+                                       guidanceScale: 8.0,
+                                       seed: 1_000_000,
+                                       stepCount: 20,
+                                       imageCount: 1, disableSafety: false,
+                                       startImage: UIImage().cgImage,
+                                       strength: 0.5)
+
+    @State var isGenerating: Bool = false
+    @EnvironmentObject var ImgSaver: ImageSaver
+    @State var isSaved: Bool = false
+
+    @Namespace var topID
+    @Namespace var imgTopID
 
     var body: some View {
-        ScrollView {
-            VStack {
-                Text("draw an animation-style picture with prompt and photo\n (512, 512) pixel size is best quality")
-                    .foregroundColor(.secondary)
-                    .multilineTextAlignment(.center)
-                    .font(.caption)
-                    .padding()
+        ScrollViewReader { proxy in
+            ScrollView {
+                VStack {
+                    Text("draw an animation-style picture with prompt and photo\n (512, 512) pixel size is best quality")
+                        .foregroundColor(.secondary)
+                        .multilineTextAlignment(.center)
+                        .font(.caption)
+                        .padding()
 
-                PhotosPicker(
-                    selection: $selectedItem,
-                    matching: .images,
-                    photoLibrary: .shared()) {
-                        VStack {
-                            if let resizedImage {
-                                Image(uiImage: resizedImage)
-                                    .resizable()
-                                    .frame(width: 128, height: 128)
-                            } else {
-                                Image(systemName: "photo.badge.plus")
-                                    .font(.largeTitle)
+                    PhotosPicker(
+                        selection: $selectedItem,
+                        matching: .images,
+                        photoLibrary: .shared()) {
+                            VStack {
+                                if let resizedImage {
+                                    Image(uiImage: resizedImage)
+                                        .resizable()
+                                        .frame(width: 128, height: 128)
+                                } else {
+                                    Image(systemName: "photo.badge.plus")
+                                        .font(.largeTitle)
+                                }
+
+                                Text("select base photo in library")
+                            }.padding(EdgeInsets(top: 40, leading: 68, bottom: 40, trailing: 68))
+                                .overlay(content: {
+                                    RoundedRectangle(cornerRadius: 12)
+                                        .strokeBorder(style: StrokeStyle(lineWidth: 4, dash: [8]))
+                                })
+                        }.onChange(of: selectedItem, { oldValue, newValue in
+                            Task {
+                                if let data = try? await newValue?.loadTransferable(type: Data.self), let uiImage = UIImage(data: data) {
+
+                                    resizedImage = uiImage
+                                    generationParameter.startImage = uiImage.cgImage?.resize(size: CGSize(width: 512, height: 512))
+                                }
                             }
-
-                            Text("select base photo in library")
-                        }.padding(EdgeInsets(top: 40, leading: 68, bottom: 40, trailing: 68))
-                        .overlay(content: {
-                            RoundedRectangle(cornerRadius: 12)
-                                .strokeBorder(style: StrokeStyle(lineWidth: 4, dash: [8]))
                         })
-                    }.onChange(of: selectedItem, { oldValue, newValue in
-                        Task {
-                            // Retrieve selected asset in the form of Data
-                            if let data = try? await newValue?.loadTransferable(type: Data.self), let uiImage = UIImage(data: data) {
 
-                                resizedImage = uiImage
-                                generationParameter.startImage = uiImage.cgImage?.resize(size: CGSize(width: 512, height: 512))
+                    PromptView(parameter: $generationParameter)
+                        .disabled(imageGenerator.generationState != .idle)
+
+                    if imageGenerator.generationState == .idle {
+                        Button(action: {
+                            Task {
+                                generate()
+                                isGenerating = true
+                                imageGenerator.generatedImages = nil
+                                imageGenerator.steps = 0
+                                withAnimation {
+                                    proxy.scrollTo(imgTopID, anchor: .top)
+                                }
                             }
+                            isSaved = false
+                        }) {
+                            Text("Generate").font(.title)
+                        }.buttonStyle(.borderedProminent)
+                    } else {
+                        if imageGenerator.isCancelled {
+                            Text("Canceling..").font(.title)
+                        } else {
+                            Text("Generating..").font(.title)
                         }
-                    })
-
-                PromptView(parameter: $generationParameter)
-                    .disabled(imageGenerator.generationState != .idle)
-
-                if imageGenerator.generationState == .idle {
-                    Button(action: generate) {
-                        Text("Generate").font(.title)
-                    }.buttonStyle(.borderedProminent)
-                } else {
-                    ProgressView()
-                }
-
-                if let generatedImages = imageGenerator.generatedImages {
-                    ForEach(generatedImages.images) {
-                        Image(uiImage: $0.uiImage)
-                            .resizable()
-                            .scaledToFit()
                     }
+
+                    GenImageView(isGenerating: $isGenerating,
+                                 isSaved: $isSaved,
+                                 imageGenerator: imageGenerator)
+                    .id(imgTopID)
                 }
             }
         }

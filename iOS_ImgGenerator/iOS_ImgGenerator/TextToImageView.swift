@@ -20,6 +20,7 @@ lowres, bad anatomy, bad hands, text, error, missing fingers, extra digit, fewer
 
     @State var isGenerating: Bool = false
     @EnvironmentObject var ImgSaver: ImageSaver
+    @State var isSaved: Bool = false
 
     @Namespace var topID
     @Namespace var imgTopID
@@ -46,6 +47,7 @@ lowres, bad anatomy, bad hands, text, error, missing fingers, extra digit, fewer
                                     proxy.scrollTo(imgTopID, anchor: .top)
                                 }
                             }
+                            isSaved = false
                         }) {
                             Text("Generate").font(.title)
                         }.buttonStyle(.borderedProminent)
@@ -57,37 +59,9 @@ lowres, bad anatomy, bad hands, text, error, missing fingers, extra digit, fewer
                         }
                     }
 
-                    VStack {
-                        if isGenerating {
-                            if let generatedImages = imageGenerator.generatedImages {
-                                ForEach(generatedImages.images) {
-                                    Image(uiImage: $0.uiImage)
-                                        .resizable()
-                                        .scaledToFit()
-                                }
-                                Button(action: {
-                                    let imageSaver = ImageSaver()
-                                    imageSaver.writeToPhotoAlbum(image: generatedImages.images.first!.uiImage)
-                                }, label: {
-                                    Text("Save")
-                                        .font(.title)
-                                })
-                                .buttonStyle(.borderedProminent)
-                            } else {
-                                CircularProgressView(progress: (Double(imageGenerator.steps) / 28.0))
-
-                                Button(action: {
-                                    print("")
-                                    imageGenerator.isCancelled = true
-                                    isGenerating = false
-                                }, label: {
-                                    Text("Cancel")
-                                        .font(.title)
-                                })
-                                .buttonStyle(.borderedProminent)
-                            }
-                        }
-                    }.padding()
+                    GenImageView(isGenerating: $isGenerating,
+                                 isSaved: $isSaved,
+                                 imageGenerator: imageGenerator)
                     .id(imgTopID)
                 }
             }
