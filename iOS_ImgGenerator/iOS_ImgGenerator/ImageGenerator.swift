@@ -53,7 +53,9 @@ final class ImageGenerator: ObservableObject {
     }
 
     @Published var generationState: GenerationState = .idle
-    @Published var generatedImages: GeneratedImages?
+    @Published var t2iGeneratedImages: GeneratedImages?
+    @Published var i2iGeneratedImages: GeneratedImages?
+
     @Published var isPipelineCreated = false
     @Published var isCancelled: Bool = false
     @Published var steps: Int = 0
@@ -72,8 +74,12 @@ final class ImageGenerator: ObservableObject {
         isPipelineCreated = true
     }
 
-    func setGeneratedImages(_ images: GeneratedImages?) { // for actor isolation
-        generatedImages = images
+    func setT2IGeneratedImages(_ images: GeneratedImages?) { // for actor isolation
+        t2iGeneratedImages = images
+    }
+
+    func setI2IGeneratedImages(_ images: GeneratedImages?) { // for actor isolation
+        i2iGeneratedImages = images
     }
 
     // swiftlint:disable function_body_length
@@ -106,7 +112,7 @@ final class ImageGenerator: ObservableObject {
                     var configuration = StableDiffusionPipeline.Configuration(prompt: parameter.prompt)
                     configuration.negativePrompt = parameter.negativePrompt
                     configuration.imageCount = 1
-                    configuration.stepCount = 28
+                    configuration.stepCount = 2
                     configuration.seed = UInt32.random(in: 0...UInt32.max)
                     configuration.guidanceScale = 7.5
                     configuration.disableSafety = parameter.disableSafety
@@ -127,17 +133,29 @@ final class ImageGenerator: ObservableObject {
                         } else { return nil }
                     }
 
+                    let generatedImages = GeneratedImages(prompt: parameter.prompt,
+                                                          negativePrompt: parameter.negativePrompt,
+                                                          guidanceScale: parameter.guidanceScale,
+                                                          imageCount: parameter.imageCount,
+                                                          stepCount: parameter.stepCount,
+                                                          seed: parameter.seed,
+                                                          disableSafety: parameter.disableSafety,
+                            images: uiImages.map { uiImage in GeneratedImage(uiImage: uiImage) })
+
                     if await !self.isCancelled {
-                        await self.setGeneratedImages(GeneratedImages(prompt: parameter.prompt,
-                                                                      negativePrompt: parameter.negativePrompt,
-                                                                      guidanceScale: parameter.guidanceScale,
-                                                                      imageCount: parameter.imageCount,
-                                                                      stepCount: parameter.stepCount,
-                                                                      seed: parameter.seed,
-                                                                      disableSafety: parameter.disableSafety,
-                                        images: uiImages.map { uiImage in GeneratedImage(uiImage: uiImage) }))
+                        switch parameter.mode {
+                        case .textToImage:
+                            await self.setT2IGeneratedImages(generatedImages)
+                        case .imageToImage:
+                            await self.setI2IGeneratedImages(generatedImages)
+                        }
                     } else {
-                        await self.setGeneratedImages(nil)
+                        switch parameter.mode {
+                        case .textToImage:
+                            await self.setT2IGeneratedImages(nil)
+                        case .imageToImage:
+                            await self.setI2IGeneratedImages(nil)
+                        }
                     }
                 } catch {
                     print("failed to generate images.")

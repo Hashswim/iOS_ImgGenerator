@@ -41,7 +41,7 @@ lowres, bad anatomy, bad hands, text, error, missing fingers, extra digit, fewer
                             Task {
                                 generate()
                                 isGenerating = true
-                                imageGenerator.generatedImages = nil
+                                imageGenerator.t2iGeneratedImages = nil
                                 imageGenerator.steps = 0
                                 withAnimation {
                                     proxy.scrollTo(imgTopID, anchor: .top)
@@ -61,6 +61,7 @@ lowres, bad anatomy, bad hands, text, error, missing fingers, extra digit, fewer
 
                     GenImageView(isGenerating: $isGenerating,
                                  isSaved: $isSaved,
+                                 isT2I: true,
                                  imageGenerator: imageGenerator)
                     .id(imgTopID)
                 }

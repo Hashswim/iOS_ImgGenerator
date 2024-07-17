@@ -26,7 +26,7 @@ lowres, bad anatomy, bad hands, text, error, missing fingers, extra digit, fewer
                                        startImage: UIImage().cgImage,
                                        strength: 0.5)
 
-    @State var isGenerating: Bool = false
+    @State var isGenerating2: Bool = false
     @EnvironmentObject var ImgSaver: ImageSaver
     @State var isSaved: Bool = false
 
@@ -80,8 +80,8 @@ lowres, bad anatomy, bad hands, text, error, missing fingers, extra digit, fewer
                         Button(action: {
                             Task {
                                 generate()
-                                isGenerating = true
-                                imageGenerator.generatedImages = nil
+                                isGenerating2 = true
+                                imageGenerator.i2iGeneratedImages = nil
                                 imageGenerator.steps = 0
                                 withAnimation {
                                     proxy.scrollTo(imgTopID, anchor: .top)
@@ -99,8 +99,9 @@ lowres, bad anatomy, bad hands, text, error, missing fingers, extra digit, fewer
                         }
                     }
 
-                    GenImageView(isGenerating: $isGenerating,
+                    GenImageView(isGenerating: $isGenerating2,
                                  isSaved: $isSaved,
+                                 isT2I: false,
                                  imageGenerator: imageGenerator)
                     .id(imgTopID)
                 }
