@@ -74,13 +74,7 @@ lowres, bad anatomy, bad hands, text, error, missing fingers, extra digit, fewer
                                 })
                                 .buttonStyle(.borderedProminent)
                             } else {
-                                Image("gen_image")
-                                    .resizable()
-                                    .scaledToFit()
-                                    .symbolEffect(.variableColor.cumulative, options: .repeating.speed(1.5))
-                                ProgressView(value: ((Double(imageGenerator.steps) / 28.0)))
-                                    .progressViewStyle(LinearProgressViewStyle(tint: .red))
-                                    .padding()
+                                CircularProgressView(progress: (Double(imageGenerator.steps) / 28.0))
 
                                 Button(action: {
                                     print("")
