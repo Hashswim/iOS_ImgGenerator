@@ -1,28 +1,52 @@
 
 import SwiftUI
+import TipKit
 
 struct PromptView: View {
     @Binding var parameter: ImageGenerator.GenerationParameter
-    @State var hint: Bool = true
 
     var body: some View {
         VStack(spacing: 8) {
-            HStack { Text("Prompt"); Spacer() }
-            TextField("Prompt:", text: $parameter.prompt,prompt: Text("Enter what you want to draw").foregroundColor(.blue),  axis: .vertical)
+            HStack {
+                Text("Prompt")
+                    .font(.subheadline)
+//                Image(systemName: "questionmark.circle")
+//                    .font(.subheadline)
+//                    .popoverTip(PromptTooltip.prompt(title: "Prompt", message: "using \",\" or sentence to what you add to picture"),
+//                                arrowEdge: .bottom)
+                Spacer()
+            }
+
+            TextField("Prompt:", text: $parameter.prompt, prompt: Text("Enter what you want to draw"),  axis: .vertical)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
                 .lineLimit(1...30)
 
             HStack {
                 Text("Negative Prompt")
+                    .font(.subheadline)
+//                Button (action: {
+//                    PromptTooltip.show.toggle()
+//                }) {
+//                    Image(systemName: "questionmark.circle")
+//                        .font(.subheadline)
+//                }
+//                .popoverTip(PromptTooltip.prompt(title: "Negative Prompt", message: "using \",\" or sentence to what you subtract to picture"),
+//                                 arrowEdge: .bottom)
                 Spacer()
             }
-            TextField("Prompt:", text: $parameter.negativePrompt, axis: .vertical)
+            TextField("Negative Prompt:", text: $parameter.negativePrompt, prompt:  Text("Enter what you substract from image"),axis: .vertical)
                 .textFieldStyle(.roundedBorder)
                 .lineLimit(1...30)
 
             if parameter.mode == .imageToImage {
-                HStack { 
-                    Text("Strength: \(parameter.strength, specifier: "%.1f")"); Spacer() }
+                HStack {
+                    Text("Strength: \(parameter.strength, specifier: "%.1f")")
+//                    Image(systemName: "questionmark.circle")
+//                        .font(.subheadline)
+//                        .popoverTip(PromptTooltip.prompt(title: "Strength", message: "How close to the base image you're going to draw"),
+//                                    arrowEdge: .bottom)
+                    Spacer()
+                }
                 Slider(
                     value: $parameter.strength,
                     in: 0.0...0.9,

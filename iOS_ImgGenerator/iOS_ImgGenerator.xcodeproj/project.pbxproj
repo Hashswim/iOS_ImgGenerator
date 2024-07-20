@@ -3,13 +3,14 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 60;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		11622E1D2C4603670093476C /* ImageSaver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11622E1C2C4603670093476C /* ImageSaver.swift */; };
 		11622E1F2C47891E0093476C /* CircularProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11622E1E2C47891E0093476C /* CircularProgressView.swift */; };
 		11622E212C4799F40093476C /* GenImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11622E202C4799F40093476C /* GenImageView.swift */; };
+		11622E232C47D1DB0093476C /* PromptTooltip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11622E222C47D1DB0093476C /* PromptTooltip.swift */; };
 		1173E1602C42D7DD00875F16 /* CoreMLModels in Resources */ = {isa = PBXBuildFile; fileRef = 1173E15F2C42D7DD00875F16 /* CoreMLModels */; };
 		1173E1632C42D82E00875F16 /* StableDiffusion in Frameworks */ = {isa = PBXBuildFile; productRef = 1173E1622C42D82E00875F16 /* StableDiffusion */; };
 		1173E1652C42DA1200875F16 /* ImageGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1173E1642C42DA1200875F16 /* ImageGenerator.swift */; };
@@ -27,6 +28,7 @@
 		11622E1C2C4603670093476C /* ImageSaver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageSaver.swift; sourceTree = "<group>"; };
 		11622E1E2C47891E0093476C /* CircularProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularProgressView.swift; sourceTree = "<group>"; };
 		11622E202C4799F40093476C /* GenImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenImageView.swift; sourceTree = "<group>"; };
+		11622E222C47D1DB0093476C /* PromptTooltip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromptTooltip.swift; sourceTree = "<group>"; };
 		1173E15F2C42D7DD00875F16 /* CoreMLModels */ = {isa = PBXFileReference; lastKnownFileType = folder; name = CoreMLModels; path = "../../../../ml-stable-diffusion/generated-2/CoreMLModels"; sourceTree = "<group>"; };
 		1173E1642C42DA1200875F16 /* ImageGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageGenerator.swift; sourceTree = "<group>"; };
 		1173E1662C42DA4100875F16 /* ImageToImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageToImageView.swift; sourceTree = "<group>"; };
@@ -78,14 +80,15 @@
 				117EC5E32C3FDB3000FDF90C /* iOS_ImgGeneratorApp.swift */,
 				1173E1642C42DA1200875F16 /* ImageGenerator.swift */,
 				1173E1662C42DA4100875F16 /* ImageToImageView.swift */,
+				11622E222C47D1DB0093476C /* PromptTooltip.swift */,
 				1173E1682C42DA4100875F16 /* MainContainerView.swift */,
 				1173E1672C42DA4100875F16 /* PromptView.swift */,
 				1173E1692C42DA4100875F16 /* TextToImageView.swift */,
 				11622E202C4799F40093476C /* GenImageView.swift */,
 				11622E1E2C47891E0093476C /* CircularProgressView.swift */,
+				11622E1C2C4603670093476C /* ImageSaver.swift */,
 				117EC5E72C3FDB3200FDF90C /* Assets.xcassets */,
 				117EC5E92C3FDB3200FDF90C /* Preview Content */,
-				11622E1C2C4603670093476C /* ImageSaver.swift */,
 			);
 			path = iOS_ImgGenerator;
 			sourceTree = "<group>";
@@ -137,7 +140,7 @@
 				};
 			};
 			buildConfigurationList = 117EC5DB2C3FDB3000FDF90C /* Build configuration list for PBXProject "iOS_ImgGenerator" */;
-			compatibilityVersion = "Xcode 14.0";
+			compatibilityVersion = "Xcode 15.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -182,6 +185,7 @@
 				11622E1D2C4603670093476C /* ImageSaver.swift in Sources */,
 				1173E16A2C42DA4100875F16 /* ImageToImageView.swift in Sources */,
 				1173E1652C42DA1200875F16 /* ImageGenerator.swift in Sources */,
+				11622E232C47D1DB0093476C /* PromptTooltip.swift in Sources */,
 				1173E16B2C42DA4100875F16 /* PromptView.swift in Sources */,
 				11622E1F2C47891E0093476C /* CircularProgressView.swift in Sources */,
 				117EC5E42C3FDB3000FDF90C /* iOS_ImgGeneratorApp.swift in Sources */,
@@ -243,7 +247,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -301,7 +305,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
@@ -330,6 +334,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -361,6 +366,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

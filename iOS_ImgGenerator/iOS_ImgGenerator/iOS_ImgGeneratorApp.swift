@@ -1,5 +1,6 @@
 
 import SwiftUI
+import TipKit
 
 @main
 struct iOS_ImgGeneratorApp: App {
@@ -8,4 +9,9 @@ struct iOS_ImgGeneratorApp: App {
             MainContainerView()
         }
     }
+
+//    init() {
+//        try? Tips.configure()
+////        try? Tips.showAllTipsForTesting()
+//    }
 }
