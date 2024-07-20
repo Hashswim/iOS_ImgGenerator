@@ -22,6 +22,7 @@
 		117EC5E82C3FDB3200FDF90C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 117EC5E72C3FDB3200FDF90C /* Assets.xcassets */; };
 		117EC5EB2C3FDB3200FDF90C /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 117EC5EA2C3FDB3200FDF90C /* Preview Assets.xcassets */; };
 		11BBC5672C4567E3002AB856 /* UIScreen+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11BBC5662C4567E3002AB856 /* UIScreen+.swift */; };
+		11C47A242C4B81D60099EB20 /* MyColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11C47A232C4B81D60099EB20 /* MyColors.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -41,6 +42,7 @@
 		117EC5E72C3FDB3200FDF90C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		117EC5EA2C3FDB3200FDF90C /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		11BBC5662C4567E3002AB856 /* UIScreen+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIScreen+.swift"; sourceTree = "<group>"; };
+		11C47A232C4B81D60099EB20 /* MyColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyColors.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -74,12 +76,13 @@
 		117EC5E22C3FDB3000FDF90C /* iOS_ImgGenerator */ = {
 			isa = PBXGroup;
 			children = (
-				11BBC5662C4567E3002AB856 /* UIScreen+.swift */,
 				1173E16E2C440DB700875F16 /* iOS-ImgGenerator-Info.plist */,
 				1173E15F2C42D7DD00875F16 /* CoreMLModels */,
 				117EC5E32C3FDB3000FDF90C /* iOS_ImgGeneratorApp.swift */,
 				1173E1642C42DA1200875F16 /* ImageGenerator.swift */,
 				1173E1662C42DA4100875F16 /* ImageToImageView.swift */,
+				11BBC5662C4567E3002AB856 /* UIScreen+.swift */,
+				11C47A232C4B81D60099EB20 /* MyColors.swift */,
 				11622E222C47D1DB0093476C /* PromptTooltip.swift */,
 				1173E1682C42DA4100875F16 /* MainContainerView.swift */,
 				1173E1672C42DA4100875F16 /* PromptView.swift */,
@@ -179,6 +182,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1173E16C2C42DA4100875F16 /* MainContainerView.swift in Sources */,
+				11C47A242C4B81D60099EB20 /* MyColors.swift in Sources */,
 				1173E16D2C42DA4100875F16 /* TextToImageView.swift in Sources */,
 				11BBC5672C4567E3002AB856 /* UIScreen+.swift in Sources */,
 				11622E212C4799F40093476C /* GenImageView.swift in Sources */,

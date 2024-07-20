@@ -9,15 +9,19 @@ struct MainContainerView: View {
         VStack {
             HStack {
                 Text("Image Generator")
-                    .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
+                    .font(.title)
+                    .foregroundStyle(Color.white)
                 Spacer()
-            }
+            }.padding(.horizontal)
 
             Picker(selection: $selection, label: Text("test")) {
                 Text("Text to Image").tag(0)
                 Text("Image to Image").tag(1)
             }
             .pickerStyle(.segmented)
+            .background(MySpecialColors.guideTextGray)
+            .clipShape(RoundedRectangle(cornerRadius: 8.0))
+            .padding(.horizontal)
 
             TabView(selection: $selection) {
                 TextToImageView(imageGenerator: imageGenerator)
@@ -27,7 +31,8 @@ struct MainContainerView: View {
             }
             .tabViewStyle(.page(indexDisplayMode: .never))
 //            .animation(.easeIn, value: selection)
-        }.padding()
+        }
+        .background(MySpecialColors.backgroundIndigo)
     }
 }
 

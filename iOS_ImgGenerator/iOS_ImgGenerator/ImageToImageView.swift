@@ -38,10 +38,10 @@ lowres, bad anatomy, bad hands, text, error, missing fingers, extra digit, fewer
             ScrollView {
                 VStack {
                     Text("draw an animation-style picture with prompt and photo\n (512, 512) pixel size is best quality")
-                        .foregroundColor(.secondary)
+                        .foregroundColor(MySpecialColors.guideTextGray)
                         .multilineTextAlignment(.center)
                         .font(.caption)
-                        .padding()
+                        .padding(.bottom)
 
                     PhotosPicker(
                         selection: $selectedItem,
@@ -51,17 +51,20 @@ lowres, bad anatomy, bad hands, text, error, missing fingers, extra digit, fewer
                                 if let resizedImage {
                                     Image(uiImage: resizedImage)
                                         .resizable()
-                                        .frame(width: 128, height: 128)
+                                        .frame(width: 160, height: 160)
                                 } else {
                                     Image(systemName: "photo.badge.plus")
                                         .font(.largeTitle)
                                 }
-
                                 Text("select base photo in library")
-                            }.padding(EdgeInsets(top: 40, leading: 68, bottom: 40, trailing: 68))
+                            }/*.padding(EdgeInsets(top: 40, leading: 68, bottom: 40, trailing: 68))*/
+                            .tint(MySpecialColors.accentDeepRed)
+                            .padding(40)
+                            .frame(maxWidth: .infinity)
                                 .overlay(content: {
                                     RoundedRectangle(cornerRadius: 12)
-                                        .strokeBorder(style: StrokeStyle(lineWidth: 4, dash: [8]))
+                                        .strokeBorder(MySpecialColors.accentDeepRed,
+                                                      style: StrokeStyle(lineWidth: 4, dash: [8]))
                                 })
                         }.onChange(of: selectedItem, { oldValue, newValue in
                             Task {
@@ -71,7 +74,8 @@ lowres, bad anatomy, bad hands, text, error, missing fingers, extra digit, fewer
                                     generationParameter.startImage = uiImage.cgImage?.resize(size: CGSize(width: 512, height: 512))
                                 }
                             }
-                        })
+                        }).padding(.bottom, 8)
+                        .padding(.horizontal)
 
                     PromptView(parameter: $generationParameter)
                         .disabled(imageGenerator.generationState != .idle)
@@ -90,12 +94,27 @@ lowres, bad anatomy, bad hands, text, error, missing fingers, extra digit, fewer
                             isSaved = false
                         }) {
                             Text("Generate").font(.title)
+                                .foregroundStyle(Color.white)
                         }.buttonStyle(.borderedProminent)
+                            .tint(MySpecialColors.accentDeepRed)
+
                     } else {
                         if imageGenerator.isCancelled {
-                            Text("Canceling..").font(.title)
+                            Button(action: {}) {
+                                Text("Canceling..")
+                                    .font(.title)
+                                    .foregroundStyle(Color.white)
+                            }.buttonStyle(.borderedProminent)
+                                .tint(MySpecialColors.progressBarRed)
+                                .disabled(true)
                         } else {
-                            Text("Generating..").font(.title)
+                            Button(action: {}) {
+                                Text("Generating..")
+                                    .font(.title)
+                                    .foregroundStyle(Color.white)
+                            }.buttonStyle(.borderedProminent)
+                                .tint(MySpecialColors.progressBarRed)
+                                .disabled(true)
                         }
                     }
 

@@ -9,7 +9,8 @@ struct PromptView: View {
         VStack(spacing: 8) {
             HStack {
                 Text("Prompt")
-                    .font(.subheadline)
+                    .font(.headline)
+                    .foregroundStyle(Color.white)
 //                Image(systemName: "questionmark.circle")
 //                    .font(.subheadline)
 //                    .popoverTip(PromptTooltip.prompt(title: "Prompt", message: "using \",\" or sentence to what you add to picture"),
@@ -20,10 +21,12 @@ struct PromptView: View {
             TextField("Prompt:", text: $parameter.prompt, prompt: Text("Enter what you want to draw"),  axis: .vertical)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
                 .lineLimit(1...30)
+                .padding(.bottom)
 
             HStack {
                 Text("Negative Prompt")
-                    .font(.subheadline)
+                    .font(.headline)
+                    .foregroundStyle(Color.white)
 //                Button (action: {
 //                    PromptTooltip.show.toggle()
 //                }) {
@@ -34,13 +37,17 @@ struct PromptView: View {
 //                                 arrowEdge: .bottom)
                 Spacer()
             }
+
             TextField("Negative Prompt:", text: $parameter.negativePrompt, prompt:  Text("Enter what you substract from image"),axis: .vertical)
                 .textFieldStyle(.roundedBorder)
                 .lineLimit(1...30)
+                .padding(.bottom)
 
             if parameter.mode == .imageToImage {
                 HStack {
                     Text("Strength: \(parameter.strength, specifier: "%.1f")")
+                        .foregroundStyle(Color.white)
+                        .font(.headline)
 //                    Image(systemName: "questionmark.circle")
 //                        .font(.subheadline)
 //                        .popoverTip(PromptTooltip.prompt(title: "Strength", message: "How close to the base image you're going to draw"),
@@ -51,10 +58,9 @@ struct PromptView: View {
                     value: $parameter.strength,
                     in: 0.0...0.9,
                     step: 0.1
-                )
+                ).tint(MySpecialColors.accentDeepRed)
             }
-        }
-        .padding()
+        }.padding(.horizontal)
     }
 }
 

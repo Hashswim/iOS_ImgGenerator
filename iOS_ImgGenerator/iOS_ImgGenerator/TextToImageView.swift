@@ -30,8 +30,9 @@ lowres, bad anatomy, bad hands, text, error, missing fingers, extra digit, fewer
             ScrollView {
                 VStack {
                     Text("draw an animation-style picture with prompt")
-                        .foregroundColor(.secondary)
+                        .foregroundColor(MySpecialColors.guideTextGray)
                         .font(.caption)
+                        .padding(.bottom)
 
                     PromptView(parameter: $generationParameter)
                         .disabled(imageGenerator.generationState != .idle)
@@ -51,11 +52,22 @@ lowres, bad anatomy, bad hands, text, error, missing fingers, extra digit, fewer
                         }) {
                             Text("Generate").font(.title)
                         }.buttonStyle(.borderedProminent)
+                            .tint(MySpecialColors.accentDeepRed)
                     } else {
                         if imageGenerator.isCancelled {
-                            Text("Canceling..").font(.title)
+                            Button(action: {}) {
+                                Text("Canceling..")
+                                    .font(.title)
+                                    .foregroundStyle(Color.white)
+                            }.buttonStyle(.borderedProminent)
+                                .disabled(true)
                         } else {
-                            Text("Generating..").font(.title)
+                            Button(action: {}) {
+                                Text("Generating..")
+                                    .font(.title)
+                                    .foregroundStyle(Color.white)
+                            }.buttonStyle(.borderedProminent)
+                                .disabled(true)
                         }
                     }
 
