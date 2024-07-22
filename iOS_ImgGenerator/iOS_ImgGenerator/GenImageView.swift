@@ -30,14 +30,6 @@ struct GenImageView: View {
                             imageSaver.writeToPhotoAlbum(image: generatedImages.images.first!.uiImage)
                             isSaved = true
                         }, label: {
-//                            if !isSaved {
-//                                Text("Save")
-//                                    .font(.title)
-//                            } else {
-//                                Text("Complete!")
-//                                    .foregroundStyle(Color.white)
-//                                    .font(.title)
-//                            }
                             Text(!isSaved ? "Save" : "Complete!")
                                 .foregroundStyle(Color.white)
                                 .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
@@ -81,10 +73,12 @@ struct GenImageView: View {
                             isSaved = true
                         }, label: {
                             Text(!isSaved ? "Save" : "Complete!")
+                                .foregroundStyle(Color.white)
                                 .font(.title)
                         })
                         .buttonStyle(.borderedProminent)
                         .tint(MySpecialColors.accentDeepRed)
+                        .disabled(isSaved)
                     } else {
                         CircularProgressView(progress: (Double(imageGenerator.steps) / 28.1))
 
