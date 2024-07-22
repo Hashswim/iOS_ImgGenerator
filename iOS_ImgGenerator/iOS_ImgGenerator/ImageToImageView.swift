@@ -14,7 +14,7 @@ lowres, bad anatomy, bad hands, text, error, missing fingers, extra digit, fewer
     @State private var selectedItem: PhotosPickerItem? = nil
     @State private var selectedImageData: Data? = nil
 
-    @ObservedObject var imageGenerator: ImageGenerator
+    @EnvironmentObject var imageGenerator: ImageGenerator
     @State private var generationParameter: ImageGenerator.GenerationParameter =
     ImageGenerator.GenerationParameter(mode: .imageToImage,
                                        prompt: prompt,
@@ -120,8 +120,7 @@ lowres, bad anatomy, bad hands, text, error, missing fingers, extra digit, fewer
 
                     GenImageView(isGenerating: $isGenerating2,
                                  isSaved: $isSaved,
-                                 isT2I: false,
-                                 imageGenerator: imageGenerator)
+                                 isT2I: false)
                     .id(imgTopID)
                 }
             }
@@ -152,8 +151,8 @@ extension CGImage {
 }
 
 struct ImageToImageView_Previews: PreviewProvider {
-    static let imageGenerator = ImageGenerator()
+//    static let imageGenerator = ImageGenerator()
     static var previews: some View {
-        ImageToImageView(imageGenerator: imageGenerator)
+        ImageToImageView()
     }
 }

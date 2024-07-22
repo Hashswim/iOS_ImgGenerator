@@ -5,10 +5,10 @@ import Combine
 class ImageSaver: NSObject, ObservableObject {
     let objectWillChange = ObservableObjectPublisher()
     var isSaved : Bool = false {
-            willSet {
-                self.objectWillChange.send()
-            }
+        willSet {
+            self.objectWillChange.send()
         }
+    }
 
     func writeToPhotoAlbum(image: UIImage) {
         UIImageWriteToSavedPhotosAlbum(image, self, #selector(saveCompleted), nil)

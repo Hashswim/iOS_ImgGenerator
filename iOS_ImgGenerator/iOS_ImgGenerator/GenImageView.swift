@@ -5,7 +5,7 @@ struct GenImageView: View {
     @Binding var isGenerating: Bool
     @Binding var isSaved: Bool
     var isT2I: Bool
-    @ObservedObject var imageGenerator: ImageGenerator
+    @EnvironmentObject var imageGenerator: ImageGenerator
 
     var body: some View {
         VStack {

@@ -24,12 +24,13 @@ struct MainContainerView: View {
             .padding(.horizontal)
 
             TabView(selection: $selection) {
-                TextToImageView(imageGenerator: imageGenerator)
+                TextToImageView()
                     .tag(0)
-                ImageToImageView(imageGenerator: imageGenerator)
+                ImageToImageView()
                     .tag(1)
             }
             .tabViewStyle(.page(indexDisplayMode: .never))
+            .environmentObject(imageGenerator)
 //            .animation(.easeIn, value: selection)
         }
         .background(MySpecialColors.backgroundIndigo)
@@ -39,5 +40,6 @@ struct MainContainerView: View {
 struct MainContainerView_PreView: PreviewProvider {
     static var previews: some View {
         MainContainerView()
+            .environmentObject(ImageGenerator())
     }
 }

@@ -3,7 +3,7 @@ import SwiftUI
 
 struct TextToImageView: View {
 
-    @ObservedObject var imageGenerator: ImageGenerator
+    @EnvironmentObject var imageGenerator: ImageGenerator
     @State private var generationParameter =
     ImageGenerator.GenerationParameter(mode: .textToImage,
                                        prompt: "a photo of an astronaut riding a horse on mars",
@@ -73,8 +73,7 @@ lowres, bad anatomy, bad hands, text, error, missing fingers, extra digit, fewer
 
                     GenImageView(isGenerating: $isGenerating,
                                  isSaved: $isSaved,
-                                 isT2I: true,
-                                 imageGenerator: imageGenerator)
+                                 isT2I: true)
                     .id(imgTopID)
                 }
             }
@@ -88,8 +87,8 @@ lowres, bad anatomy, bad hands, text, error, missing fingers, extra digit, fewer
 }
 
 struct TextToImageView_Previews: PreviewProvider {
-    static let imageGenerator = ImageGenerator()
+//    static let imageGenerator = ImageGenerator()
     static var previews: some View {
-        TextToImageView(imageGenerator: imageGenerator)
+        TextToImageView()
     }
 }
