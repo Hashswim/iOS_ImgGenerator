@@ -6,7 +6,7 @@ struct TextToImageView: View {
     @EnvironmentObject var imageGenerator: ImageGenerator
     @State private var generationParameter =
     ImageGenerator.GenerationParameter(mode: .textToImage,
-                                       prompt: "a photo of an astronaut riding a horse on mars",
+                                       prompt: "a photo of an astronaut swimming on jupyter",
                                        negativePrompt: """
 lowres, bad anatomy, bad hands, text, error, missing fingers, extra digit, fewer digits,
  cropped, worst quality, low quality, normal quality, jpeg artifacts, blurry, multiple legs, malformation

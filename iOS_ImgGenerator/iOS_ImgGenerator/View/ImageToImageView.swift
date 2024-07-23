@@ -3,7 +3,7 @@ import SwiftUI
 import PhotosUI
 
 struct ImageToImageView: View {
-    static let prompt = "happy smile snow winter"
+    static let prompt = "1girl, smile, snow, studying in caffe studying in caffe with a cup of coffee"
     static let negativePrompt =
 """
 lowres, bad anatomy, bad hands, text, error, missing fingers, extra digit, fewer digits,
@@ -27,7 +27,6 @@ lowres, bad anatomy, bad hands, text, error, missing fingers, extra digit, fewer
                                        strength: 0.5)
 
     @State var isGenerating2: Bool = false
-    @EnvironmentObject var ImgSaver: ImageSaver
     @State var isSaved: Bool = false
 
     @Namespace var topID
@@ -129,24 +128,6 @@ lowres, bad anatomy, bad hands, text, error, missing fingers, extra digit, fewer
 
     func generate() {
         imageGenerator.generateImages(generationParameter)
-    }
-}
-
-extension CGImage {
-    func resize(size: CGSize) -> CGImage? {
-        let width: Int = Int(size.width)
-        let height: Int = Int(size.height)
-
-        let bytesPerPixel = self.bitsPerPixel / self.bitsPerComponent
-        let destBytesPerRow = width * bytesPerPixel
-
-        guard let colorSpace = self.colorSpace else { return nil }
-        guard let context = CGContext(data: nil, width: width, height: height, bitsPerComponent: self.bitsPerComponent, bytesPerRow: destBytesPerRow, space: colorSpace, bitmapInfo: self.alphaInfo.rawValue) else { return nil }
-
-        context.interpolationQuality = .high
-        context.draw(self, in: CGRect(x: 0, y: 0, width: width, height: height))
-
-        return context.makeImage()
     }
 }
 

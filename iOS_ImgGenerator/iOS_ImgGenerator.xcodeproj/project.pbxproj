@@ -21,6 +21,7 @@
 		117EC5E42C3FDB3000FDF90C /* iOS_ImgGeneratorApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 117EC5E32C3FDB3000FDF90C /* iOS_ImgGeneratorApp.swift */; };
 		117EC5E82C3FDB3200FDF90C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 117EC5E72C3FDB3200FDF90C /* Assets.xcassets */; };
 		117EC5EB2C3FDB3200FDF90C /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 117EC5EA2C3FDB3200FDF90C /* Preview Assets.xcassets */; };
+		119398E92C4FF34B00403238 /* CGImage+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 119398E82C4FF34B00403238 /* CGImage+.swift */; };
 		11BBC5672C4567E3002AB856 /* UIScreen+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11BBC5662C4567E3002AB856 /* UIScreen+.swift */; };
 		11C47A242C4B81D60099EB20 /* MySpecialColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11C47A232C4B81D60099EB20 /* MySpecialColors.swift */; };
 /* End PBXBuildFile section */
@@ -41,6 +42,7 @@
 		117EC5E32C3FDB3000FDF90C /* iOS_ImgGeneratorApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iOS_ImgGeneratorApp.swift; sourceTree = "<group>"; };
 		117EC5E72C3FDB3200FDF90C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		117EC5EA2C3FDB3200FDF90C /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		119398E82C4FF34B00403238 /* CGImage+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGImage+.swift"; sourceTree = "<group>"; };
 		11BBC5662C4567E3002AB856 /* UIScreen+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIScreen+.swift"; sourceTree = "<group>"; };
 		11C47A232C4B81D60099EB20 /* MySpecialColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MySpecialColors.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -57,6 +59,40 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		117B4F702C4E57C700A1C1D7 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				11BBC5662C4567E3002AB856 /* UIScreen+.swift */,
+				119398E82C4FF34B00403238 /* CGImage+.swift */,
+				11C47A232C4B81D60099EB20 /* MySpecialColors.swift */,
+				11622E222C47D1DB0093476C /* PromptTooltip.swift */,
+				11622E1C2C4603670093476C /* ImageSaver.swift */,
+				1173E1642C42DA1200875F16 /* ImageGenerator.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		117B4F712C4E57CF00A1C1D7 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		117B4F722C4E57D500A1C1D7 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				117EC5E32C3FDB3000FDF90C /* iOS_ImgGeneratorApp.swift */,
+				1173E1682C42DA4100875F16 /* MainContainerView.swift */,
+				1173E1692C42DA4100875F16 /* TextToImageView.swift */,
+				1173E1662C42DA4100875F16 /* ImageToImageView.swift */,
+				1173E1672C42DA4100875F16 /* PromptView.swift */,
+				11622E202C4799F40093476C /* GenImageView.swift */,
+				11622E1E2C47891E0093476C /* CircularProgressView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		117EC5D72C3FDB3000FDF90C = {
 			isa = PBXGroup;
 			children = (
@@ -76,21 +112,12 @@
 		117EC5E22C3FDB3000FDF90C /* iOS_ImgGenerator */ = {
 			isa = PBXGroup;
 			children = (
-				1173E16E2C440DB700875F16 /* iOS-ImgGenerator-Info.plist */,
 				1173E15F2C42D7DD00875F16 /* CoreMLModels */,
-				117EC5E32C3FDB3000FDF90C /* iOS_ImgGeneratorApp.swift */,
-				1173E1642C42DA1200875F16 /* ImageGenerator.swift */,
-				1173E1662C42DA4100875F16 /* ImageToImageView.swift */,
-				11BBC5662C4567E3002AB856 /* UIScreen+.swift */,
-				11C47A232C4B81D60099EB20 /* MySpecialColors.swift */,
-				11622E222C47D1DB0093476C /* PromptTooltip.swift */,
-				1173E1682C42DA4100875F16 /* MainContainerView.swift */,
-				1173E1672C42DA4100875F16 /* PromptView.swift */,
-				1173E1692C42DA4100875F16 /* TextToImageView.swift */,
-				11622E202C4799F40093476C /* GenImageView.swift */,
-				11622E1E2C47891E0093476C /* CircularProgressView.swift */,
-				11622E1C2C4603670093476C /* ImageSaver.swift */,
+				1173E16E2C440DB700875F16 /* iOS-ImgGenerator-Info.plist */,
 				117EC5E72C3FDB3200FDF90C /* Assets.xcassets */,
+				117B4F702C4E57C700A1C1D7 /* Model */,
+				117B4F722C4E57D500A1C1D7 /* View */,
+				117B4F712C4E57CF00A1C1D7 /* ViewModel */,
 				117EC5E92C3FDB3200FDF90C /* Preview Content */,
 			);
 			path = iOS_ImgGenerator;
@@ -189,6 +216,7 @@
 				11622E1D2C4603670093476C /* ImageSaver.swift in Sources */,
 				1173E16A2C42DA4100875F16 /* ImageToImageView.swift in Sources */,
 				1173E1652C42DA1200875F16 /* ImageGenerator.swift in Sources */,
+				119398E92C4FF34B00403238 /* CGImage+.swift in Sources */,
 				11622E232C47D1DB0093476C /* PromptTooltip.swift in Sources */,
 				1173E16B2C42DA4100875F16 /* PromptView.swift in Sources */,
 				11622E1F2C47891E0093476C /* CircularProgressView.swift in Sources */,
