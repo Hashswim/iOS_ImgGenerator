@@ -18,7 +18,7 @@ struct PromptView: View {
                 Spacer()
             }
 
-            TextField("Prompt:", text: $parameter.prompt, prompt: Text("Enter what you want to draw"),  axis: .vertical)
+            TextField("Prompt:", text: $parameter.prompt, prompt: Text("Enter what you want to draw").foregroundStyle(Color.gray),  axis: .vertical)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
                 .lineLimit(1...30)
                 .padding(.bottom)
@@ -38,7 +38,7 @@ struct PromptView: View {
                 Spacer()
             }
 
-            TextField("Negative Prompt:", text: $parameter.negativePrompt, prompt:  Text("Enter what you substract from image"),axis: .vertical)
+            TextField("Negative Prompt:", text: $parameter.negativePrompt, prompt:  Text("Enter what you substract from image").foregroundStyle(Color.gray),axis: .vertical)
                 .textFieldStyle(.roundedBorder)
                 .lineLimit(1...30)
                 .padding(.bottom)

@@ -1,5 +1,6 @@
 
 import SwiftUI
+import Photos
 
 struct GenImageView: View {
 
