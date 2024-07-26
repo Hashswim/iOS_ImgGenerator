@@ -112,7 +112,7 @@ final class ImageGenerator: ObservableObject {
                     var configuration = StableDiffusionPipeline.Configuration(prompt: parameter.prompt)
                     configuration.negativePrompt = parameter.negativePrompt
                     configuration.imageCount = 1
-                    configuration.stepCount = 2
+                    configuration.stepCount = 28
                     configuration.seed = UInt32.random(in: 0...UInt32.max)
                     configuration.guidanceScale = 7.5
                     configuration.disableSafety = parameter.disableSafety
