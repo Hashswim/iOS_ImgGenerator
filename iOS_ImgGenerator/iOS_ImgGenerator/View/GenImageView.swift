@@ -1,14 +1,16 @@
-
 import SwiftUI
 import Photos
 
 struct GenImageView: View {
-
     @EnvironmentObject var imageGenerator: ImageGenerator
 
     @Binding var isGenerating: Bool
     @Binding var isSaved: Bool
+    @State var showAlert: Bool = false
+
     var isT2I: Bool
+
+    @StateObject private var imageSaver = ImageSaver()
 
     var body: some View {
         VStack {
@@ -28,9 +30,7 @@ struct GenImageView: View {
                             .clipShape(RoundedRectangle(cornerRadius: 4.0))
                     }
                     Button(action: {
-                        let imageSaver = ImageSaver()
                         imageSaver.writeToPhotoAlbum(image: generatedImages.images.first!.uiImage)
-                        isSaved = true
                     }, label: {
                         Text(!isSaved ? "Save" : "Complete!")
                             .foregroundStyle(Color.white)
@@ -55,7 +55,19 @@ struct GenImageView: View {
                     .tint(MySpecialColors.accentDeepRed)
                 }
             }
-        }.padding()
+        }
+        .padding()
+        .onReceive(imageSaver.$isSaved) { saved in
+            isSaved = saved
+        }
+        .onReceive(imageSaver.$showAlert) { show in
+            showAlert = show
+        }
+        .alert(imageSaver.alertMessage, isPresented: $showAlert) {
+            Button("OK", role: .cancel) {
+                showAlert = false
+            }
+        }
     }
 
     private func getGeneratedImages() -> ImageGenerator.GeneratedImages? {
