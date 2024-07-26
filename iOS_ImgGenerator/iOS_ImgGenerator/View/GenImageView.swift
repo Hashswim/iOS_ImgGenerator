@@ -63,10 +63,21 @@ struct GenImageView: View {
         .onReceive(imageSaver.$showAlert) { show in
             showAlert = show
         }
-        .alert(imageSaver.alertMessage, isPresented: $showAlert) {
-            Button("OK", role: .cancel) {
-                showAlert = false
+        .alert(imageSaver.alertMessage.0, isPresented: $showAlert) {
+            if imageSaver.alertMessage.1 {
+                Button("Setting") {
+                    showAlert = false
+                    UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!)
+                }
+                Button("Confirm") {
+                    showAlert = false
+                }
+            } else {
+                Button("Confirm", role: .cancel) {
+                    showAlert = false
+                }
             }
+
         }
     }
 

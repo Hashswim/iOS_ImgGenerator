@@ -7,14 +7,14 @@ class ImageSaver: NSObject, ObservableObject {
 
     @Published var isSaved: Bool = false
     @Published var showAlert: Bool = false
-    @Published var alertMessage: String = ""
+    @Published var alertMessage: (String, Bool) = ("", false)
 
     func writeToPhotoAlbum(image: UIImage) {
         checkPhotoPermission { [weak self] isDenied in
             DispatchQueue.main.async {
                 if isDenied {
                     self?.isPermissionDenied = true
-                    self?.alertMessage = "Please allow permissions in settings"
+                    self?.alertMessage = ("Please allow permissions in settings", true)
                     self?.showAlert = true
                 } else {
                     UIImageWriteToSavedPhotosAlbum(image, self, #selector(self?.saveCompleted), nil)
@@ -29,7 +29,7 @@ class ImageSaver: NSObject, ObservableObject {
             if let error = error {
                 NSLog("Failed to save image. Error = \(error.localizedDescription)")
                 if isPermissionDenied {
-                    alertMessage = "Failed to save photo"
+                    alertMessage = ("Failed to save photo", false)
                     showAlert = true
                 }
             } else {
