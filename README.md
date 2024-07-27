@@ -16,7 +16,7 @@
 ## Download
 
 ## Guide Document
-[](https://lunar-second-9db.notion.site/AniGen-Documentation-5081d2b49a5f4a2b92d2e63afba56681?pvs=74)
+[Notion Link](https://lunar-second-9db.notion.site/AniGen-Documentation-5081d2b49a5f4a2b92d2e63afba56681?pvs=74)
 
 ## Model
 - Ojimi/anime-kawai-diffusion
